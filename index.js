@@ -14,3 +14,10 @@ const GameBoard = (function () {
 
   return { getBoard };
 })();
+
+const Player = (name, symbol) => {
+  return { name, symbol };
+};
+
+const player1 = Player('Player 1', 'X');
+const player2 = Player('Player 2', 'O');
