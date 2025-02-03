@@ -31,7 +31,16 @@ const GameController = (function () {
 
   const getCurrentPlayer = () => currentPlayer;
 
-  return { switchTurn, getCurrentPlayer };
+  const makeMove = (row, col) => {
+    if (GameBoard.getBoard()[row][col] === null) {
+      GameBoard.getBoard()[row][col] = currentPlayer.symbol;
+      switchTurn();
+    } else {
+      console.log('Spot already taken!');
+    }
+  };
+
+  return { switchTurn, getCurrentPlayer, makeMove };
 })();
 
 console.log(GameController.getCurrentPlayer());
