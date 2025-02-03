@@ -12,3 +12,14 @@
   font-size: 2rem;
   margin: 1px;
 }
+
+#reset {
+  width: 120px;
+  height: 60px;
+  font-size: 2rem;
+}
+
+#result {
+  margin-top: 10px;
+  font-size: 2rem;
+}

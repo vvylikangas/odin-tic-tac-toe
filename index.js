@@ -4,16 +4,18 @@ const GameBoard = (function () {
   const columns = 3;
   const board = [];
 
-  for (let i = 0; i < rows; i++) {
-    board[i] = [];
-    for (let j = 0; j < columns; j++) {
-      board[i][j] = null;
+  const resetBoard = () => {
+    for (let i = 0; i < rows; i++) {
+      board[i] = [];
+      for (let j = 0; j < columns; j++) {
+        board[i][j] = null;
+      }
     }
-  }
+  };
 
   const getBoard = () => board;
 
-  return { getBoard };
+  return { getBoard, resetBoard };
 })();
 
 // player factory
@@ -28,6 +30,9 @@ const player2 = Player('Player 2', 'O');
 // game controller IIFE
 const GameController = (function () {
   let currentPlayer = player1;
+  let gameOver = false;
+  const resetBtn = document.getElementById('reset');
+  const resultEl = document.getElementById('result');
 
   const switchTurn = () => {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
@@ -103,24 +108,35 @@ const GameController = (function () {
   };
 
   const makeMove = (row, col) => {
+    if (gameOver) return;
+    resultEl.innerText = '';
     if (GameBoard.getBoard()[row][col] === null) {
       GameBoard.getBoard()[row][col] = currentPlayer.symbol;
 
       // check win or tie
       if (checkWin(currentPlayer.symbol)) {
-        console.log(`${currentPlayer.name} wins!`);
+        resultEl.innerText = `${currentPlayer.name} wins!`;
+        gameOver = true;
         return;
       }
       if (checkTie()) {
-        console.log("It's a tie!");
+        resultEl.innerText = "It's a tie!";
+        gameOver = true;
         return;
       }
-
       switchTurn();
     } else {
-      console.log('Spot already taken!');
+      resultEl.innerText = 'Spot already taken!';
     }
   };
+
+  resetBtn.addEventListener('click', () => {
+    currentPlayer = player1;
+    gameOver = false;
+    GameBoard.resetBoard();
+    resultEl.innerText = '';
+    DisplayController.renderBoard();
+  });
 
   return { switchTurn, getCurrentPlayer, makeMove };
 })();
@@ -150,4 +166,5 @@ const DisplayController = (function () {
   return { renderBoard };
 })();
 
+GameBoard.resetBoard();
 DisplayController.renderBoard();
