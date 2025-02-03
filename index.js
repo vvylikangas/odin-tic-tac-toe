@@ -124,3 +124,24 @@ const GameController = (function () {
 
   return { switchTurn, getCurrentPlayer, makeMove };
 })();
+
+const DisplayController = (function () {
+  const gameContainer = document.getElementById('game-container');
+
+  const renderBoard = () => {
+    const board = GameBoard.getBoard();
+    gameContainer.innerHTML = '';
+
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        const cell = document.createElement('button');
+        cell.classList.add('cell');
+        cell.textContent = board[row][col];
+        gameContainer.appendChild(cell);
+      }
+    }
+  };
+  return { renderBoard };
+})();
+
+DisplayController.renderBoard();
