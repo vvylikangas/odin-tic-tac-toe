@@ -137,6 +137,12 @@ const DisplayController = (function () {
         const cell = document.createElement('button');
         cell.classList.add('cell');
         cell.textContent = board[row][col];
+
+        cell.addEventListener('click', () => {
+          GameController.makeMove(row, col);
+          DisplayController.renderBoard();
+        });
+
         gameContainer.appendChild(cell);
       }
     }
